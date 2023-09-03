@@ -19,7 +19,7 @@ ASCII_ART = """
 
 
 class InteractiveCLI:
-    DEFAULT_PACKAGES = ['examon_beginners_package']
+    DEFAULT_PACKAGES = ['examon_beginners_package', 'examon_pcep_package']
 
     @staticmethod
     @decorator_timer
@@ -30,7 +30,9 @@ class InteractiveCLI:
 
         examon_engine, results_manager = InteractiveCLI.run_quiz(
             examon_config_dir, manager, ItemRegistryFilter(
-                tags_any=(InteractiveCLI.get_tags())
+                tags_any=(InteractiveCLI.get_tags(
+                    tags=['PCEP', 'beginner']
+                ))
             )
         )
         full_results_file_path = f'{examon_config_dir.results_full_path()}/{ResultsManager.default_filename()}'
@@ -40,8 +42,8 @@ class InteractiveCLI:
         print(examon_engine.summary())
 
     @staticmethod
-    def get_tags():
-        available_tags = list(filter(None, ExamonItemRegistry.unique_tags()))
+    def get_tags(tags=ExamonItemRegistry.unique_tags()):
+        available_tags = list(filter(None, tags))
         selected_tags = None
         if len(available_tags) > 0:
             terminal_menu = TerminalMenu(

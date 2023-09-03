@@ -2,6 +2,7 @@ from examon_core.examon_item_registry import ItemRegistryFilter
 
 from ...protocols import ContentReader
 
+
 class InMemoryReader(ContentReader):
     def __init__(self, models):
         self.models = models
