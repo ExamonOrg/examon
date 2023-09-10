@@ -10,6 +10,7 @@ class SettingsManagerFactory:
         package_manager = SettingsManager()
         package_manager.packages = data['packages']['all']
         package_manager.active_packages = data['packages']['active']
-        package_manager.mode = data['mode']
+        package_manager.content_mode = data['content_mode']
+        package_manager.file_mode = data['file_mode']
 
         return package_manager

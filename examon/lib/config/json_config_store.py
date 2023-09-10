@@ -6,7 +6,7 @@ from .settings_manager import SettingsManager
 
 
 class JsonConfigStore:
-    DEFAULT_MODULE = 'examon_beginners_package'
+    DEFAULT_MODULES = ['examon_beginners_package', 'examon_pcep_package']
 
     @staticmethod
     def persist(package_manager, full_file_path: str) -> None:
@@ -20,12 +20,10 @@ class JsonConfigStore:
     def persist_default_config(full_file_path: str) -> None:
         package_manager = SettingsManager()
 
-        package_manager.mode = 'sqlite3'
-        package_manager.packages = [
-            {
-                'name': JsonConfigStore.DEFAULT_MODULE
-            }]
-        package_manager.active_packages = [JsonConfigStore.DEFAULT_MODULE]
+        package_manager.content_mode = 'sqlite3'
+        package_manager.file_mode = 'local'
+        package_manager.packages = [{'name': p} for p in JsonConfigStore.DEFAULT_MODULES]
+        package_manager.active_packages = JsonConfigStore.DEFAULT_MODULES
 
         if not os.path.isfile(full_file_path):
             JsonConfigStore.persist(package_manager, full_file_path)

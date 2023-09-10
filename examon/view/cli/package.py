@@ -37,10 +37,10 @@ class PackageManagerCli:
         elif sub_command == 'install':
             PipInstaller.install(config)
             PipInstaller.import_packages([package['name'] for package in package_manager.packages])
-            if package_manager.mode == 'sqlite3':
-                ExamonWriterFactory.build(f"{config.examon_dir}/files",
-                                    f'{config.examon_dir}/examon.db',
-                                    ExamonItemRegistry.registry()).run()
+            ExamonWriterFactory.build(
+                package_manager.content_mode, package_manager.file_mode,
+                config, ExamonItemRegistry.registry()
+            ).run()
 
         else:
             print('Invalid subcommand (add, remove, install, list, init)')

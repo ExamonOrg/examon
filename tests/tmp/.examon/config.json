@@ -1,5 +1,6 @@
 {
-    "mode": "sqlite3",
+    "content_mode": "mongodb",
+    "file_mode": "null",
     "packages": {
         "all": [
             {

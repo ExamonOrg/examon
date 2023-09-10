@@ -20,7 +20,7 @@ class Helpers:
 
         # ingest
         db_name = f'{dir_factory_build.examon_dir}/examon.db'
-        ExamonWriterFactory.build(dir_factory_build.code_files_full_path(),
+        ExamonWriterFactory.build_sqlite3_local_file_system(dir_factory_build.code_files_full_path(),
                                   db_name,
                                   ExamonItemRegistry.registry()).run()
 

@@ -7,6 +7,8 @@ from examon.lib.examon_engine_factory import ExamonEngineFactory
 from examon.lib.storage.read.examon_reader_factory import ExamonReaderFactory
 from examon.lib.reporting.results_manager import ResultsManager
 from examon.view.formatter_options import FormatterOptions
+
+from ...lib.storage.write.examon_writer_factory import ExamonWriterFactory
 from ...lib.utils.logging import decorator_timer
 
 ASCII_ART = """
@@ -26,7 +28,12 @@ class InteractiveCLI:
     def process_command():
         print(ASCII_ART)
         examon_config_dir = ConfigDirFactory.init_everything(ConfigDirFactory.build())
+
         manager = PipInstaller.install(examon_config_dir)
+        ExamonWriterFactory.build(
+            manager.content_mode, manager.file_mode,
+            examon_config_dir, ExamonItemRegistry.registry()
+        ).run()
 
         examon_engine, results_manager = InteractiveCLI.run_quiz(
             examon_config_dir, manager, ItemRegistryFilter(

@@ -5,7 +5,8 @@ class SettingsManager:
     def __init__(self):
         self.packages = []
         self.active_packages = []
-        self.mode = None
+        self.content_mode = None
+        self.file_mode = None
 
     def reset(self):
         self.packages = []
@@ -45,7 +46,8 @@ class SettingsManager:
 
     def as_dict(self) -> dict:
         return {
-            'mode': self.mode,
+            'content_mode': self.content_mode,
+            'file_mode': self.file_mode,
             'packages':
                 {
                     'all': self.packages,

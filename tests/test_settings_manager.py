@@ -91,7 +91,8 @@ class TestRepoManager:
         repo_manager.add('examon')
         repo_manager.add_active('examon')
         assert repo_manager.as_dict() == {
-            'mode': None,
+            'content_mode': None,
+            'file_mode': None,
             'packages':
                 {
                     'all': [{'name': 'examon'}],
