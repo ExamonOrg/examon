@@ -30,10 +30,11 @@ class InteractiveCLI:
         examon_config_dir = ConfigDirFactory.init_everything(ConfigDirFactory.build())
 
         manager = PipInstaller.install(examon_config_dir)
-        ExamonWriterFactory.build(
+        writer = ExamonWriterFactory.build(
             manager.content_mode, manager.file_mode,
             examon_config_dir, ExamonItemRegistry.registry()
-        ).run()
+        )
+        writer.run()
 
         examon_engine, results_manager = InteractiveCLI.run_quiz(
             examon_config_dir, manager, ItemRegistryFilter(
@@ -65,7 +66,10 @@ class InteractiveCLI:
 
     @staticmethod
     def run_quiz(examon_config_dir, manager, registry_filter):
-        questions = ExamonReaderFactory.load(examon_config_dir, examon_filter=registry_filter)
+        questions = ExamonReaderFactory.load(examon_config_dir,
+                                             content_mode=manager.content_mode,
+                                             file_mode=manager.file_mode,
+                                             examon_filter=registry_filter)
         examon_engine = ExamonEngineFactory.build(
             questions, FormatterOptions()['terminal256'])
         examon_engine.run()
