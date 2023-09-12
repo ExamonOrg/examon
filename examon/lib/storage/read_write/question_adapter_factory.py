@@ -7,7 +7,7 @@ from ..read_write.sql_db import Question
 
 @singledispatch
 def build(question) -> list[BaseQuestion]:
-    raise Exception('NotSupported')
+    raise Exception("NotSupported")
 
 
 @build.register(BaseQuestion)
@@ -23,30 +23,31 @@ def _(question) -> list[BaseQuestion]:
 @build.register(dict)
 def _(question) -> list[BaseQuestion]:
     klass = None
-    if len(question['choices']) == 0:
+    if len(question["choices"]) == 0:
         klass = BaseQuestion
-    elif len(question['choices']) > 0:
+    elif len(question["choices"]) > 0:
         klass = MultiChoiceQuestion
 
     question_model = klass(
-        internal_id=question['internal_id'],
-        unique_id=question['unique_id'],
-        print_logs=question['print_logs'],
-        tags=question['tags'],
-        function_src=question['function_src'],
-        correct_answer=question['correct_answer'],
-        metrics=CodeMetrics(lloc=question['metrics']['lloc'],
-                            loc=question['metrics']['loc'],
-                            sloc=question['metrics']['sloc'],
-                            no_of_functions=question['metrics']['no_of_functions'],
-                            difficulty=question['metrics']['difficulty'],
-                            categorised_difficulty=question['metrics']['categorised_difficulty']
-                            )
+        internal_id=question["internal_id"],
+        unique_id=question["unique_id"],
+        print_logs=question["print_logs"],
+        tags=question["tags"],
+        function_src=question["function_src"],
+        correct_answer=question["correct_answer"],
+        metrics=CodeMetrics(
+            lloc=question["metrics"]["lloc"],
+            loc=question["metrics"]["loc"],
+            sloc=question["metrics"]["sloc"],
+            no_of_functions=question["metrics"]["no_of_functions"],
+            difficulty=question["metrics"]["difficulty"],
+            categorised_difficulty=question["metrics"]["categorised_difficulty"],
+        ),
     )
-    question_model.src_filename = question['src_filename']
+    question_model.src_filename = question["src_filename"]
 
     if question_model.__class__ == MultiChoiceQuestion:
-        question_model.choices = question['choices']
+        question_model.choices = question["choices"]
 
     return question_model
 
@@ -65,13 +66,14 @@ def _(question) -> list[BaseQuestion]:
         print_logs=[q.value for q in question.print_logs],
         tags=[q.value for q in question.tags],
         correct_answer=question.answer,
-        metrics=CodeMetrics(lloc=question.metrics.lloc,
-                            loc=question.metrics.loc,
-                            sloc=question.metrics.sloc,
-                            no_of_functions=question.metrics.no_of_functions,
-                            difficulty=question.metrics.difficulty,
-                            categorised_difficulty=question.metrics.categorised_difficulty
-                            )
+        metrics=CodeMetrics(
+            lloc=question.metrics.lloc,
+            loc=question.metrics.loc,
+            sloc=question.metrics.sloc,
+            no_of_functions=question.metrics.no_of_functions,
+            difficulty=question.metrics.difficulty,
+            categorised_difficulty=question.metrics.categorised_difficulty,
+        ),
     )
     question_model.src_filename = question.src_filename
 

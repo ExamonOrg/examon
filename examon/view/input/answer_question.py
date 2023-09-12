@@ -2,9 +2,7 @@ from simple_term_menu import TerminalMenu
 
 
 class AnswerInputter:
-    def __init__(
-            self,
-            message="Enter Choice: "):
+    def __init__(self, message="Enter Choice: "):
         self.__message = message
 
     def prompt(self, question):
@@ -16,11 +14,10 @@ class AnswerInputter:
 
 class FreeTextAnswerInputter:
     def prompt(self, _question):
-        return input('Please enter your answer:\n')
+        return input("Please enter your answer:\n")
 
 
 class AutoAnswerInputter:
-
     def __init__(self, answers):
         self.answer_iter = iter(answers)
 

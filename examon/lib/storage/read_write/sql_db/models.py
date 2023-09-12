@@ -9,45 +9,51 @@ class Base(DeclarativeBase):
 
 
 class PrintLog(Base):
-    __tablename__ = 'print_logs'
+    __tablename__ = "print_logs"
     id: Mapped[int] = mapped_column(primary_key=True)
     value: Mapped[str]
     log_number: Mapped[int]
     question_id: Mapped[int] = mapped_column(ForeignKey("questions.id"))
 
     def __repr__(self) -> str:
-        return f"PrintLog(id={self.id!r}, " \
-               f"value={self.value!r}, " \
-               f"log_number={self.log_number!r}, " \
-               f"question_id={self.question_id!r}"
+        return (
+            f"PrintLog(id={self.id!r}, "
+            f"value={self.value!r}, "
+            f"log_number={self.log_number!r}, "
+            f"question_id={self.question_id!r}"
+        )
 
 
 class Tag(Base):
-    __tablename__ = 'tags'
+    __tablename__ = "tags"
     id: Mapped[int] = mapped_column(primary_key=True)
     value: Mapped[str]
     question_id: Mapped[int] = mapped_column(ForeignKey("questions.id"))
 
     def __repr__(self) -> str:
-        return f"Tag(id={self.id!r}, " \
-               f"value={self.value!r}, " \
-               f"question_id={self.question_id!r}"
+        return (
+            f"Tag(id={self.id!r}, "
+            f"value={self.value!r}, "
+            f"question_id={self.question_id!r}"
+        )
 
 
 class Choice(Base):
-    __tablename__ = 'choices'
+    __tablename__ = "choices"
     id: Mapped[int] = mapped_column(primary_key=True)
     value: Mapped[str]
     question_id: Mapped[int] = mapped_column(ForeignKey("questions.id"))
 
     def __repr__(self) -> str:
-        return f"Choice(id={self.id!r}, " \
-               f"value={self.value!r}, " \
-               f"question_id={self.question_id!r}"
+        return (
+            f"Choice(id={self.id!r}, "
+            f"value={self.value!r}, "
+            f"question_id={self.question_id!r}"
+        )
 
 
 class Metrics(Base):
-    __tablename__ = 'metrics'
+    __tablename__ = "metrics"
     id: Mapped[int] = mapped_column(primary_key=True)
     no_of_functions: Mapped[int]
     loc: Mapped[int]
@@ -58,14 +64,16 @@ class Metrics(Base):
     question_id: Mapped[int] = mapped_column(ForeignKey("questions.id"))
 
     def __repr__(self) -> str:
-        return f"Metrics(id={self.id!r}, " \
-               f"no_of_functions={self.no_of_functions!r}, " \
-               f"loc={self.loc!r}, " \
-               f"lloc={self.lloc!r}, " \
-               f"sloc={self.sloc!r}, " \
-               f"difficulty={self.difficulty!r}, " \
-               f"categorised_difficulty={self.categorised_difficulty!r}, " \
-               f"question_id={self.question_id!r}"
+        return (
+            f"Metrics(id={self.id!r}, "
+            f"no_of_functions={self.no_of_functions!r}, "
+            f"loc={self.loc!r}, "
+            f"lloc={self.lloc!r}, "
+            f"sloc={self.sloc!r}, "
+            f"difficulty={self.difficulty!r}, "
+            f"categorised_difficulty={self.categorised_difficulty!r}, "
+            f"question_id={self.question_id!r}"
+        )
 
 
 class Question(Base):
@@ -85,11 +93,13 @@ class Question(Base):
     metrics: Mapped["Metrics"] = relationship()
 
     def __repr__(self) -> str:
-        return f"Question(id={self.id!r}, " \
-               f"unique_id={self.unique_id!r}, " \
-               f"internal_id={self.internal_id!r}, " \
-               f"version={self.version!r}, " \
-               f"repository={self.repository!r}, " \
-               f"language={self.language!r}, " \
-               f"src_filename={self.src_filename!r}, " \
-               f"created_at={self.created_at!r})"
+        return (
+            f"Question(id={self.id!r}, "
+            f"unique_id={self.unique_id!r}, "
+            f"internal_id={self.internal_id!r}, "
+            f"version={self.version!r}, "
+            f"repository={self.repository!r}, "
+            f"language={self.language!r}, "
+            f"src_filename={self.src_filename!r}, "
+            f"created_at={self.created_at!r})"
+        )

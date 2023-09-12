@@ -6,11 +6,11 @@ from pygments.formatters import RawTokenFormatter
 from collections import defaultdict
 
 OPTIONS = [
-    ('terminal256', Terminal256Formatter),
-    ('terminal', TerminalFormatter),
-    ('null', NullFormatter),
-    ('true', TerminalTrueColorFormatter),
-    ('raw', RawTokenFormatter)
+    ("terminal256", Terminal256Formatter),
+    ("terminal", TerminalFormatter),
+    ("null", NullFormatter),
+    ("true", TerminalTrueColorFormatter),
+    ("raw", RawTokenFormatter),
 ]
 
 

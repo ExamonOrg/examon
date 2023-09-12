@@ -13,6 +13,6 @@ class OverviewCli:
 
         PipInstaller.install(config)
         SettingsManagerFactory.build(config.config_full_file_path())
-        print('overview')
+        print("overview")
         questions = ExamonReaderFactory.load(config)
         print(Stats.calc_stats(questions))

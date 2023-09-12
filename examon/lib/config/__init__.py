@@ -1,5 +1,10 @@
-__all__ = ['config_dir', 'config_dir_factory', 'json_config_store',
-           'settings_manager', 'settings_manager_factory']
+__all__ = [
+    "config_dir",
+    "config_dir_factory",
+    "json_config_store",
+    "settings_manager",
+    "settings_manager_factory",
+]
 
 from .config_dir import ExamonConfigDir
 from .config_dir_factory import ConfigDirFactory

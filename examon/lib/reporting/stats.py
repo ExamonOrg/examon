@@ -4,11 +4,10 @@ from collections import Counter
 class Stats:
     @staticmethod
     def calc_stats(questions: list) -> dict:
-
         return {
-            'total_questions': len(questions),
-            'tags_summary': Stats.uniq_tags(questions),
-            'tags': Stats.tag_count(questions),
+            "total_questions": len(questions),
+            "tags_summary": Stats.uniq_tags(questions),
+            "tags": Stats.tag_count(questions),
         }
 
     @staticmethod

@@ -3,8 +3,7 @@ from datetime import datetime
 
 
 class ResultsManager:
-    def __init__(self, question_responses, packages,
-                 examon_filter) -> None:
+    def __init__(self, question_responses, packages, examon_filter) -> None:
         self.question_responses = question_responses
         self.packages = packages
         self.examon_filter = examon_filter
@@ -15,7 +14,7 @@ class ResultsManager:
                 "date": datetime.now().strftime("%d%m%Y%H%M"),
                 "packages": self.packages,
                 "filters": self.examon_filter,
-                "responses": self.question_responses
+                "responses": self.question_responses,
             }
         )
         with open(full_file_path, "w") as outfile:

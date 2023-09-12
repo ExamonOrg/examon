@@ -29,17 +29,21 @@ class RunnerCli:
         )
         questions = ExamonReaderFactory.load(config, examon_filter=item_registry_filter)
         examon_engine = ExamonEngineFactory.build(
-            questions, FormatterOptions()[
-                cli_args.formatter])
+            questions, FormatterOptions()[cli_args.formatter]
+        )
         if cli_args.dry_run:
             return
         examon_engine.run()
 
         if cli_args.file:
-            results_manager = ResultsManager(examon_engine.responses, manager.active_packages, item_registry_filter,
-                                             file_name=cli_args.file)
+            results_manager = ResultsManager(
+                examon_engine.responses,
+                manager.active_packages,
+                item_registry_filter,
+                file_name=cli_args.file,
+            )
             results_manager.save_to_file()
-            print(f'Results saved to {results_manager.full_path}')
+            print(f"Results saved to {results_manager.full_path}")
         print(examon_engine.summary())
 
     @staticmethod
@@ -56,6 +60,6 @@ class RunnerCli:
 
     @staticmethod
     def tags_as_array(tag_str):
-        if tag_str is None or tag_str == '':
+        if tag_str is None or tag_str == "":
             return None
-        return [tag.strip() for tag in tag_str.split(',')]
+        return [tag.strip() for tag in tag_str.split(",")]

@@ -4,13 +4,18 @@ import datetime
 
 from ...protocols import ContentWriter
 
-LANGUAGE = 'python'
+LANGUAGE = "python"
 
 
 class MongoDbWriter(ContentWriter):
-    def __init__(self, client=None, filename_strategy=None,
-                 collection_name=None, database_name=None,
-                 models: list[BaseQuestion] = None) -> None:
+    def __init__(
+        self,
+        client=None,
+        filename_strategy=None,
+        collection_name=None,
+        database_name=None,
+        models: list[BaseQuestion] = None,
+    ) -> None:
         self.client = client
         self.models = models
         self.collection_name = collection_name
@@ -26,10 +31,10 @@ class MongoDbWriter(ContentWriter):
             model.src_filename = self.filename_strategy.name(model)
             model.correct_answer
             if model.repository is None:
-                model.repository = 'default'
+                model.repository = "default"
             collection = self.client[self.database_name][self.collection_name]
 
-            if collection.find_one({'unique_id': model.unique_id}) is None:
+            if collection.find_one({"unique_id": model.unique_id}) is None:
                 collection.insert_one(ExamonSerializer.serialize(model))
 
     def db(self):

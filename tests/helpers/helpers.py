@@ -6,7 +6,6 @@ from sqlalchemy import create_engine
 
 
 class Helpers:
-
     @staticmethod
     def clean():
         ExamonItemRegistry.reset()
@@ -19,10 +18,12 @@ class Helpers:
         f()
 
         # ingest
-        db_name = f'{dir_factory_build.examon_dir}/examon.db'
-        ExamonWriterFactory.build_sqlite3_local_file_system(dir_factory_build.code_files_full_path(),
-                                  db_name,
-                                  ExamonItemRegistry.registry()).run()
+        db_name = f"{dir_factory_build.examon_dir}/examon.db"
+        ExamonWriterFactory.build_sqlite3_local_file_system(
+            dir_factory_build.code_files_full_path(),
+            db_name,
+            ExamonItemRegistry.registry(),
+        ).run()
 
         return create_engine(f"sqlite+pysqlite:///{db_name}", echo=True)
 
@@ -31,7 +32,7 @@ class Helpers:
         # Reset Models
         ExamonItemRegistry.reset()
         cwd = os.getcwd()
-        dir_factory_build = ConfigDirFactory.build(f'{cwd}/tests/tmp/.examon')
+        dir_factory_build = ConfigDirFactory.build(f"{cwd}/tests/tmp/.examon")
         # clean
         ConfigDirFactory.clean(dir_factory_build)
         # setup config dirs

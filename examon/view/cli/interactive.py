@@ -21,7 +21,7 @@ ASCII_ART = """
 
 
 class InteractiveCLI:
-    DEFAULT_PACKAGES = ['examon_beginners_package', 'examon_pcep_package']
+    DEFAULT_PACKAGES = ["examon_beginners_package", "examon_pcep_package"]
 
     @staticmethod
     @decorator_timer
@@ -31,21 +31,23 @@ class InteractiveCLI:
 
         manager = PipInstaller.install(examon_config_dir)
         writer = ExamonWriterFactory.build(
-            manager.content_mode, manager.file_mode,
-            examon_config_dir, ExamonItemRegistry.registry()
+            manager.content_mode,
+            manager.file_mode,
+            examon_config_dir,
+            ExamonItemRegistry.registry(),
         )
         writer.run()
 
         examon_engine, results_manager = InteractiveCLI.run_quiz(
-            examon_config_dir, manager, ItemRegistryFilter(
-                tags_any=(InteractiveCLI.get_tags(
-                    tags=['PCEP', 'beginner']
-                ))
-            )
+            examon_config_dir,
+            manager,
+            ItemRegistryFilter(
+                tags_any=(InteractiveCLI.get_tags(tags=["PCEP", "beginner"]))
+            ),
         )
-        full_results_file_path = f'{examon_config_dir.results_full_path()}/{ResultsManager.default_filename()}'
+        full_results_file_path = f"{examon_config_dir.results_full_path()}/{ResultsManager.default_filename()}"
         results_manager.save_to_file(full_results_file_path)
-        print(f'Results saved to {full_results_file_path}')
+        print(f"Results saved to {full_results_file_path}")
 
         print(examon_engine.summary())
 
@@ -56,7 +58,7 @@ class InteractiveCLI:
         if len(available_tags) > 0:
             terminal_menu = TerminalMenu(
                 available_tags,
-                title='Please select the question tags',
+                title="Please select the question tags",
                 multi_select=True,
                 show_multi_select_hint=True,
             )
@@ -66,14 +68,17 @@ class InteractiveCLI:
 
     @staticmethod
     def run_quiz(examon_config_dir, manager, registry_filter):
-        questions = ExamonReaderFactory.load(examon_config_dir,
-                                             content_mode=manager.content_mode,
-                                             file_mode=manager.file_mode,
-                                             examon_filter=registry_filter)
+        questions = ExamonReaderFactory.load(
+            examon_config_dir,
+            content_mode=manager.content_mode,
+            file_mode=manager.file_mode,
+            examon_filter=registry_filter,
+        )
         examon_engine = ExamonEngineFactory.build(
-            questions, FormatterOptions()['terminal256'])
+            questions, FormatterOptions()["terminal256"]
+        )
         examon_engine.run()
-        results_manager = ResultsManager(examon_engine.responses,
-                                         manager.active_packages,
-                                         registry_filter)
+        results_manager = ResultsManager(
+            examon_engine.responses, manager.active_packages, registry_filter
+        )
         return examon_engine, results_manager

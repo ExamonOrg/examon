@@ -17,5 +17,6 @@ class TestQuestionQuery:
     def test_qq(self):
         engine = Helpers.setup_everything2(FixturesLoader.load_all)
         assert QuestionQuery(engine).question_unique_ids() == [
-            '94906873137099624396142246939254', '24260242706113154843827424114127'
+            "94906873137099624396142246939254",
+            "24260242706113154843827424114127",
         ]

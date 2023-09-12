@@ -1,1 +1,1 @@
-__all__ = ['fixtures_loader', 'helpers']
+__all__ = ["fixtures_loader", "helpers"]

@@ -24,38 +24,38 @@ class TestBuild:
         question = ExamonItemRegistry.registry()[0]
         build1 = build(question)
         assert build1.__class__ == BaseQuestion
-        assert build1.internal_id == 'question_one'
+        assert build1.internal_id == "question_one"
 
     def test_build_multichoice_question(self):
         FixturesLoader.load_multichoice()
         question = ExamonItemRegistry.registry()[0]
         build1 = build(question)
         assert build1.__class__ == MultiChoiceQuestion
-        assert build1.internal_id == 'question_one'
-        assert build1.choices == ['1', '2', '3']
+        assert build1.internal_id == "question_one"
+        assert build1.choices == ["1", "2", "3"]
 
     def test_build_db_question_with_choices(self):
         engine = Helpers.setup_everything2(FixturesLoader.load_multichoice)
         with Session(engine) as session:
-            stmt = select(Question).where(Question.internal_id == 'question_one')
+            stmt = select(Question).where(Question.internal_id == "question_one")
             for question in session.scalars(stmt, 0):
                 build1 = build(question)
-                assert build1.choices == ['1', '2', '3']
+                assert build1.choices == ["1", "2", "3"]
 
     def test_build_db_question(self):
         engine = Helpers.setup_everything2(FixturesLoader.load_q1)
         with Session(engine) as session:
-            stmt = select(Question).where(Question.internal_id == 'question_one')
+            stmt = select(Question).where(Question.internal_id == "question_one")
             for question in session.scalars(stmt, 0):
                 build1 = build(question)
                 assert build1.__class__ == BaseQuestion
-                assert build1.internal_id == 'question_one'
-                assert build1.unique_id == '94906873137099624396142246939254'
-                assert build1.print_logs == ['1']
-                assert build1.tags == ['a', 'b']
+                assert build1.internal_id == "question_one"
+                assert build1.unique_id == "94906873137099624396142246939254"
+                assert build1.print_logs == ["1"]
+                assert build1.tags == ["a", "b"]
                 assert build1.metrics.lloc == 3
                 assert build1.metrics.loc == 4
                 assert build1.metrics.sloc == 3
                 assert build1.metrics.no_of_functions == 1
                 assert build1.metrics.difficulty == 0.0
-                assert build1.metrics.categorised_difficulty == 'Easy'
+                assert build1.metrics.categorised_difficulty == "Easy"
