@@ -11,26 +11,30 @@ from .validate_config import ValidateConfig
 class RunnerCli:
     @staticmethod
     def process_command(cli_args):
-        config = ConfigDirFactory.build()
-        ValidateConfig.config_dir_exists(config)
+        config_dir = ConfigDirFactory.build()
+        ValidateConfig.config_dir_exists(config_dir)
 
-        path = config.config_full_file_path()
-        manager = SettingsManagerFactory.build(path)
-        PipInstaller.import_packages(manager.active_packages)
-        questions = cli_args.max_questions
-        if questions is not None:
-            questions = int(questions)
+        settings_manager = SettingsManagerFactory.build(
+            config_dir.config_full_file_path()
+        )
+        PipInstaller.import_packages(settings_manager.active_packages)
+        max_questions = cli_args.max_questions
 
         item_registry_filter = ItemRegistryFilter(
             tags_any=RunnerCli.get_tags(cli_args),
             tags_all=RunnerCli.tags_as_array(cli_args.tags_mandatory),
-            max_questions=questions,
+            max_questions=int(max_questions) if max_questions is not None else None,
             difficulty_category=cli_args.difficulty,
         )
-        questions = ExamonReaderFactory.load(config, examon_filter=item_registry_filter)
+
         examon_engine = ExamonEngineFactory.build(
-            questions, FormatterOptions()[cli_args.formatter]
+            ExamonReaderFactory.load(
+                config_dir,
+                content_mode=settings_manager.content_mode,
+                file_mode=settings_manager.file_mode,
+            ).load(item_registry_filter), FormatterOptions()[cli_args.formatter]
         )
+
         if cli_args.dry_run:
             return
         examon_engine.run()
@@ -38,7 +42,7 @@ class RunnerCli:
         if cli_args.file:
             results_manager = ResultsManager(
                 examon_engine.responses,
-                manager.active_packages,
+                settings_manager.active_packages,
                 item_registry_filter,
                 file_name=cli_args.file,
             )

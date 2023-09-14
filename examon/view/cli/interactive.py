@@ -68,14 +68,12 @@ class InteractiveCLI:
 
     @staticmethod
     def run_quiz(examon_config_dir, manager, registry_filter):
-        questions = ExamonReaderFactory.load(
-            examon_config_dir,
-            content_mode=manager.content_mode,
-            file_mode=manager.file_mode,
-            examon_filter=registry_filter,
-        )
         examon_engine = ExamonEngineFactory.build(
-            questions, FormatterOptions()["terminal256"]
+            ExamonReaderFactory.load(
+                config_dir=examon_config_dir,
+                content_mode=manager.content_mode,
+                file_mode=manager.file_mode,
+            ).load(registry_filter), FormatterOptions()["terminal256"]
         )
         examon_engine.run()
         results_manager = ResultsManager(

@@ -10,31 +10,23 @@ import pymongo
 
 
 class ExamonReaderFactory:
-    # TODO abstract factory
     @staticmethod
     def load(
-        examon_config_dir: ExamonConfigDir,
-        content_mode: str = "sqlite3",
-        file_mode: str = "memory",
-        examon_filter: ItemRegistryFilter = ItemRegistryFilter(),
-    ) -> list:
-        content_reader_driver = None
-        file_reader_driver = None
+            config_dir=ExamonConfigDir,
+            content_mode: str = "sqlite3",
+            file_mode: str = "memory"
+    ) -> Reader:
+        content_modes = {
+            "sqlite3": Sqlite3Reader(
+                db_file=config_dir.sqlite3_full_path()
+            ),
+            "memory": InMemoryReader(ExamonItemRegistry.registry()),
+            "mongodb": MongoDbReader(driver=(
+                pymongo.MongoClient("mongodb://localhost:27017/")
+            )),
+        }
 
-        if content_mode == "sqlite3" and file_mode == "local":
-            file_reader_driver = LocalFileSystemReader()
-            content_reader_driver = Sqlite3Reader(
-                db_file=examon_config_dir.sqlite3_full_path()
-            )
-        elif content_mode == "sqlite3":
-            content_reader_driver = Sqlite3Reader(
-                db_file=examon_config_dir.sqlite3_full_path()
-            )
-        elif content_mode == "memory":
-            content_reader_driver = InMemoryReader(ExamonItemRegistry.registry())
-        elif content_mode == "mongodb":
-            client = pymongo.MongoClient("mongodb://localhost:27017/")
-            content_reader_driver = MongoDbReader(driver=client)
-
-        reader = Reader(content_reader_driver, file_reader_driver)
-        return reader.load(examon_filter)
+        return Reader(
+            content_modes[content_mode],
+            LocalFileSystemReader() if file_mode == "local" else None
+        )

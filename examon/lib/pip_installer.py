@@ -9,8 +9,9 @@ from examon.lib.config import SettingsManagerFactory
 class PipInstaller:
     @staticmethod
     def install(examon_config_dir) -> SettingsManagerFactory:
-        path = examon_config_dir.config_full_file_path()
-        manager = SettingsManagerFactory.build(path)
+        manager = SettingsManagerFactory.build(
+            examon_config_dir.config_full_file_path()
+        )
         logging.info(f"installing {len(manager.packages)} repos")
         for package in manager.packages:
             with open("pip_install.log", "w") as outfile:
@@ -29,9 +30,7 @@ class PipInstaller:
 
     @staticmethod
     def is_package_installed(package) -> bool:
-        if importlib.util.find_spec(package) is None:
-            return False
-        return True
+        return importlib.util.find_spec(package) is None
 
     @staticmethod
     def import_packages(packages) -> None:
