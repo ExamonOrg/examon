@@ -36,7 +36,7 @@ examon repos add_active <repo name>
 * Use the tag filter
 
 ```shell
-examon run --tags "<tag_one>, <tag_two>"
+examon run --tags "<tag_one>, <tag_two>, <tag_three>, <tag_four>"
 ```
 
 ## Active Exam Repositories
