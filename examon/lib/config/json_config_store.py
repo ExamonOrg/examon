@@ -4,7 +4,7 @@ import json
 import logging
 from .settings_manager import SettingsManager
 
-DEFAULT_CONTENT_MODE = "local"
+DEFAULT_FILE_MODE = "local"
 DEFAULT_CONTENT_MODE = "sqlite3"
 DEFAULT_MODULES = ["examon_beginners_package", "examon_pcep_package"]
 
@@ -21,7 +21,7 @@ class JsonConfigStore:
     def persist_default_config(full_file_path: str) -> None:
         settings_manager = SettingsManager(
             content_mode=DEFAULT_CONTENT_MODE,
-            file_mode=DEFAULT_CONTENT_MODE,
+            file_mode=DEFAULT_FILE_MODE,
             packages=[{"name": p} for p in DEFAULT_MODULES],
             active_packages=DEFAULT_MODULES
         )

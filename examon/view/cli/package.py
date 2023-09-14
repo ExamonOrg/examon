@@ -40,10 +40,10 @@ class PackageManagerCli:
                 [package["name"] for package in package_manager.packages]
             )
             ExamonWriterFactory.build(
-                package_manager.content_mode,
-                package_manager.file_mode,
-                config,
-                ExamonItemRegistry.registry(),
+                content_mode=package_manager.content_mode,
+                file_mode=package_manager.file_mode,
+                examon_config_dir=config,
+                models=ExamonItemRegistry.registry(),
             ).run()
 
         else:
