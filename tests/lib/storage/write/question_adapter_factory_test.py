@@ -1,6 +1,6 @@
 import pytest
 
-from examon_core.examon_item_registry import ExamonItemRegistry
+from examon_core.examon_in_memory_db import ExamonInMemoryDatabase
 from examon_core.models.question import BaseQuestion, MultiChoiceQuestion
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -21,14 +21,14 @@ def run_around_tests():
 class TestBuild:
     def test_build_base_question(self):
         FixturesLoader.load_q1()
-        question = ExamonItemRegistry.registry()[0]
+        question = ExamonInMemoryDatabase.load()[0]
         build1 = build(question)
         assert build1.__class__ == BaseQuestion
         assert build1.internal_id == "question_one"
 
     def test_build_multichoice_question(self):
         FixturesLoader.load_multichoice()
-        question = ExamonItemRegistry.registry()[0]
+        question = ExamonInMemoryDatabase.load()[0]
         build1 = build(question)
         assert build1.__class__ == MultiChoiceQuestion
         assert build1.internal_id == "question_one"

@@ -1,7 +1,8 @@
+from examon_core.examon_filter_options import ExamonFilterOptions
+
 from examon.lib.examon_engine_factory import ExamonEngineFactory
 from examon.lib.reporting.results_manager import ResultsManager
 from examon.view.formatter_options import FormatterOptions
-from examon_core.examon_item_registry import ItemRegistryFilter
 from examon.lib.config import SettingsManagerFactory, ConfigDirFactory
 from examon.lib.pip_installer import PipInstaller
 from examon.lib.storage.read.examon_reader_factory import ExamonReaderFactory
@@ -20,7 +21,7 @@ class RunnerCli:
         PipInstaller.import_packages(settings_manager.active_packages)
         max_questions = cli_args.max_questions
 
-        item_registry_filter = ItemRegistryFilter(
+        item_registry_filter = ExamonFilterOptions(
             tags_any=RunnerCli.get_tags(cli_args),
             tags_all=RunnerCli.tags_as_array(cli_args.tags_mandatory),
             max_questions=int(max_questions) if max_questions is not None else None,

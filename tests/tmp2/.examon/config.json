@@ -1,6 +1,6 @@
 {
     "content_mode": "sqlite3",
-    "file_mode": "sqlite3",
+    "file_mode": "local",
     "packages": {
         "all": [
             {

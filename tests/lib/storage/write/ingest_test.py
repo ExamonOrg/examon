@@ -2,7 +2,7 @@ import pytest
 
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
-from examon_core.examon_item_registry import ExamonItemRegistry
+from examon_core.examon_in_memory_db import ExamonInMemoryDatabase
 
 from examon.lib.storage.read_write.sql_db import Question
 from helpers import Helpers
@@ -11,9 +11,9 @@ from fixtures_loader import FixturesLoader
 
 @pytest.fixture(autouse=True)
 def run_around_tests():
-    ExamonItemRegistry.reset()
+    ExamonInMemoryDatabase.purge()
     yield
-    ExamonItemRegistry.reset()
+    ExamonInMemoryDatabase.purge()
     Helpers.clean()
 
 

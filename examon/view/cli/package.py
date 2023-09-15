@@ -1,4 +1,4 @@
-from examon_core.examon_item_registry import ExamonItemRegistry
+from examon_core.examon_in_memory_db import ExamonInMemoryDatabase
 
 from examon.lib.config import JsonConfigStore, ConfigDirFactory, SettingsManagerFactory
 from examon.lib.storage.write.examon_writer_factory import ExamonWriterFactory
@@ -43,7 +43,7 @@ class PackageManagerCli:
                 content_mode=package_manager.content_mode,
                 file_mode=package_manager.file_mode,
                 examon_config_dir=config,
-                models=ExamonItemRegistry.registry(),
+                models=ExamonInMemoryDatabase.load(),
             ).run()
 
         else:
