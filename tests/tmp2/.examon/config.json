@@ -14,5 +14,11 @@
             "examon_beginners_package",
             "examon_pcep_package"
         ]
+    },
+    "mongodb_config": {
+        "domain": "localhost",
+        "user": "user",
+        "protocol": "mongodb",
+        "password": "password"
     }
 }

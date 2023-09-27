@@ -26,6 +26,7 @@ class InteractiveCLI:
 
     @staticmethod
     @decorator_timer
+
     def process_command():
         print(ASCII_ART)
         examon_config_dir = ConfigDirFactory.init_everything(ConfigDirFactory.build())

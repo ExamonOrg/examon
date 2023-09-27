@@ -5,9 +5,8 @@ from .content.in_memory.in_memory import InMemoryReader
 from .files.local_file_system_reader import LocalFileSystemReader
 
 from ...config import ExamonConfigDir
+from ..read_write.mongodb.mongodb_client_factory import MongoDBClientConnectionFactory
 from examon_core.examon_in_memory_db import ExamonInMemoryDatabase
-from examon_core.examon_filter_options import ExamonFilterOptions
-import pymongo
 
 
 class ExamonReaderFactory:
@@ -23,7 +22,7 @@ class ExamonReaderFactory:
             ),
             "memory": InMemoryReader(ExamonInMemoryDatabase.load()),
             "mongodb": MongoDbReader(driver=(
-                pymongo.MongoClient("mongodb://localhost:27017/")
+                MongoDBClientConnectionFactory.build(config_dir)
             )),
         }
 

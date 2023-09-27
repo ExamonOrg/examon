@@ -14,7 +14,7 @@ class PipInstaller:
         )
         logging.info(f"installing {len(manager.packages)} repos")
         for package in manager.packages:
-            with open("pip_install.log", "w") as outfile:
+            with open(f"/{examon_config_dir.examon_dir}/pip_install.log", "w") as outfile:
                 cmd = [
                     sys.executable,
                     "-m",

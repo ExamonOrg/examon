@@ -8,9 +8,14 @@ class SettingsManagerFactory:
         with open(full_file_path, "r") as f:
             data = json.load(f)
 
-        return SettingsManager(
+        manager = SettingsManager(
             packages=data["packages"]["all"],
             active_packages=data["packages"]["active"],
             content_mode=data["content_mode"],
-            file_mode=data["file_mode"],
+            file_mode=data["file_mode"]
         )
+
+        if "mongodb_config" in data:
+            manager.mongodb_config = data["mongodb_config"]
+
+        return manager

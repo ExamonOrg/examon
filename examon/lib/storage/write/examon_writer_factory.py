@@ -1,6 +1,5 @@
 from pathlib import Path
 import os
-import shutil
 from sqlalchemy import create_engine
 import pymongo
 
@@ -11,6 +10,7 @@ from .files.null_file_writer import NullFileDriver
 from .writer import Writer
 from ..read_write.naming_strategies import SimpleFilenameStrategy
 from ..read_write.sql_db import QuestionQuery
+from ..read_write.mongodb.mongodb_client_factory import MongoDBClientConnectionFactory
 
 
 class ExamonWriterFactory:
@@ -30,7 +30,6 @@ class ExamonWriterFactory:
             ),
         }
 
-        # TODO move this to sqlite3 driver
         if content_mode == "sqlite3":
             ids = QuestionQuery(engine).question_unique_ids()
             models = [model for model in models if model.unique_id not in ids]
@@ -42,13 +41,7 @@ class ExamonWriterFactory:
                     examon_config_dir.code_files_full_path()
                 )
             ),
-            "mongodb": MongoDbWriter(
-                client=(pymongo.MongoClient("mongodb://localhost:27017/")),
-                filename_strategy=(SimpleFilenameStrategy("null:///")),
-                models=models,
-                collection_name="questions",
-                database_name="examon",
-            )
+            "mongodb": ExamonWriterFactory._get_mongodb_writer(examon_config_dir, models)
         }
 
         ExamonWriterFactory.mkdirs(examon_config_dir.code_files_full_path())
@@ -56,6 +49,16 @@ class ExamonWriterFactory:
         return Writer(
             content_driver_mapping[content_mode],
             file_driver_mapping[file_mode],
+        )
+
+    @staticmethod
+    def _get_mongodb_writer(examon_config_dir, models):
+        return MongoDbWriter(
+            client=(MongoDBClientConnectionFactory.build(examon_config_dir)),
+            filename_strategy=(SimpleFilenameStrategy("null:///")),
+            models=models,
+            collection_name="questions",
+            database_name="examon",
         )
 
     # TODO move to config factory init
