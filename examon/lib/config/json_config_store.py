@@ -23,7 +23,13 @@ class JsonConfigStore:
             content_mode=DEFAULT_CONTENT_MODE,
             file_mode=DEFAULT_FILE_MODE,
             packages=[{"name": p} for p in DEFAULT_MODULES],
-            active_packages=DEFAULT_MODULES
+            active_packages=DEFAULT_MODULES,
+            mongodb_config={
+                'domain': "localhost",
+                'user': 'user',
+                'protocol': 'mongodb',
+                'password': 'password',
+            }
         )
 
         if not os.path.isfile(full_file_path):

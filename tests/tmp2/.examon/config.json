@@ -1,6 +1,6 @@
 {
     "content_mode": "sqlite3",
-    "file_mode": "sqlite3",
+    "file_mode": "local",
     "packages": {
         "all": [
             {
@@ -14,5 +14,11 @@
             "examon_beginners_package",
             "examon_pcep_package"
         ]
+    },
+    "mongodb_config": {
+        "domain": "localhost",
+        "user": "user",
+        "protocol": "mongodb",
+        "password": "password"
     }
 }

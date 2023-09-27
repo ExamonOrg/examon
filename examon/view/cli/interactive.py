@@ -1,4 +1,5 @@
-from examon_core.examon_item_registry import ExamonItemRegistry, ItemRegistryFilter
+from examon_core.examon_in_memory_db import ExamonInMemoryDatabase
+from examon_core.examon_filter_options import ExamonFilterOptions
 from simple_term_menu import TerminalMenu
 
 from examon.lib.pip_installer import PipInstaller
@@ -25,6 +26,7 @@ class InteractiveCLI:
 
     @staticmethod
     @decorator_timer
+
     def process_command():
         print(ASCII_ART)
         examon_config_dir = ConfigDirFactory.init_everything(ConfigDirFactory.build())
@@ -34,14 +36,14 @@ class InteractiveCLI:
             manager.content_mode,
             manager.file_mode,
             examon_config_dir,
-            ExamonItemRegistry.registry(),
+            ExamonInMemoryDatabase.load(),
         )
         writer.run()
 
         examon_engine, results_manager = InteractiveCLI.run_quiz(
             examon_config_dir,
             manager,
-            ItemRegistryFilter(
+            ExamonFilterOptions(
                 tags_any=(InteractiveCLI.get_tags(tags=["PCEP", "beginner"]))
             ),
         )
@@ -52,7 +54,7 @@ class InteractiveCLI:
         print(examon_engine.summary())
 
     @staticmethod
-    def get_tags(tags=ExamonItemRegistry.unique_tags()):
+    def get_tags(tags=ExamonInMemoryDatabase.unique_tags()):
         available_tags = list(filter(None, tags))
         selected_tags = None
         if len(available_tags) > 0:

@@ -3,7 +3,7 @@ from examon_core.models.question import (
     MultiChoiceQuestion,
     InputParameterQuestion,
 )
-from examon_core.examon_item_registry import ExamonItemRegistry
+from examon_core.examon_in_memory_db import ExamonInMemoryDatabase
 
 from examon.view.input.answer_question import AnswerInputter, FreeTextAnswerInputter
 from examon.view.output.question import (
@@ -28,7 +28,7 @@ class ExamonEngineFactory:
             return enabled if enabled else inputter
 
         if shuffle:
-            ExamonItemRegistry.shuffle()
+            ExamonInMemoryDatabase.shuffle()
 
         view_mappings = {
             MultiChoiceQuestion.__name__: {

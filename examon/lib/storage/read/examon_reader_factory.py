@@ -5,8 +5,8 @@ from .content.in_memory.in_memory import InMemoryReader
 from .files.local_file_system_reader import LocalFileSystemReader
 
 from ...config import ExamonConfigDir
-from examon_core.examon_item_registry import ExamonItemRegistry, ItemRegistryFilter
-import pymongo
+from ..read_write.mongodb.mongodb_client_factory import MongoDBClientConnectionFactory
+from examon_core.examon_in_memory_db import ExamonInMemoryDatabase
 
 
 class ExamonReaderFactory:
@@ -20,9 +20,9 @@ class ExamonReaderFactory:
             "sqlite3": Sqlite3Reader(
                 db_file=config_dir.sqlite3_full_path()
             ),
-            "memory": InMemoryReader(ExamonItemRegistry.registry()),
+            "memory": InMemoryReader(ExamonInMemoryDatabase.load()),
             "mongodb": MongoDbReader(driver=(
-                pymongo.MongoClient("mongodb://localhost:27017/")
+                MongoDBClientConnectionFactory.build(config_dir)
             )),
         }
 

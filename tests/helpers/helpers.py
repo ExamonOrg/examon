@@ -1,14 +1,14 @@
 import os
 from examon.lib.storage.write.examon_writer_factory import ExamonWriterFactory
 from examon.lib.config.config_dir_factory import ConfigDirFactory
-from examon_core.examon_item_registry import ExamonItemRegistry
+from examon_core.examon_in_memory_db import ExamonInMemoryDatabase
 from sqlalchemy import create_engine
 
 
 class Helpers:
     @staticmethod
     def clean():
-        ExamonItemRegistry.reset()
+        ExamonInMemoryDatabase.purge()
 
     @staticmethod
     def setup_everything2(f):
@@ -23,7 +23,7 @@ class Helpers:
             'sqlite3',
             'local',
             dir_factory_build,
-            ExamonItemRegistry.registry(),
+            ExamonInMemoryDatabase.load(),
         ).run()
 
         return create_engine(f"sqlite+pysqlite:///{db_name}", echo=True)
@@ -31,7 +31,7 @@ class Helpers:
     @staticmethod
     def setup_directories():
         # Reset Models
-        ExamonItemRegistry.reset()
+        ExamonInMemoryDatabase.purge()
         cwd = os.getcwd()
         dir_factory_build = ConfigDirFactory.build(f"{cwd}/tests/tmp/.examon")
         # clean

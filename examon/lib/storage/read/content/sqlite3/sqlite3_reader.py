@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
-from examon_core.examon_item_registry import ItemRegistryFilter
+from examon_core.examon_filter_options import ExamonFilterOptions
 from examon_core.models.question import BaseQuestion
 
 from ....read_write.sql_db import Question, Tag, Metrics
@@ -16,7 +16,7 @@ class Sqlite3Reader(ContentReader):
         else:
             self.engine = create_engine(f"sqlite+pysqlite:///{db_file}", echo=True)
 
-    def load(self, examon_filter: ItemRegistryFilter = None) -> list[BaseQuestion]:
+    def load(self, examon_filter: ExamonFilterOptions = None) -> list[BaseQuestion]:
         def array_contains_all(array, has_one):
             return len(intersection(array, has_one)) == len(has_one)
 
